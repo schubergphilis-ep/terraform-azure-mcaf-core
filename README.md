@@ -19,10 +19,10 @@ Terraform module to create the Core component of each workload, currently only i
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_boot_diag_storage_account"></a> [boot\_diag\_storage\_account](#module\_boot\_diag\_storage\_account) | github.com/schubergphilis/terraform-azure-mcaf-storage-account.git | v0.7.0 |
-| <a name="module_container_registry"></a> [container\_registry](#module\_container\_registry) | github.com/schubergphilis/terraform-azure-mcaf-container-registry.git | v0.1.3 |
-| <a name="module_keyvault_with_cmk"></a> [keyvault\_with\_cmk](#module\_keyvault\_with\_cmk) | github.com/schubergphilis/terraform-azure-mcaf-key-vault.git | v0.3.2 |
-| <a name="module_recovery_services_vault"></a> [recovery\_services\_vault](#module\_recovery\_services\_vault) | github.com/schubergphilis/terraform-azure-mcaf-recoveryservicesvault.git | v0.3.0 |
+| <a name="module_boot_diag_storage_account"></a> [boot\_diag\_storage\_account](#module\_boot\_diag\_storage\_account) | schubergphilis-ep/mcaf-storage-account/azure | 0.7.0 |
+| <a name="module_container_registry"></a> [container\_registry](#module\_container\_registry) | schubergphilis-ep/mcaf-container-registry/azure | 0.1.3 |
+| <a name="module_keyvault_with_cmk"></a> [keyvault\_with\_cmk](#module\_keyvault\_with\_cmk) | schubergphilis-ep/mcaf-key-vault/azure | 0.3.2 |
+| <a name="module_recovery_services_vault"></a> [recovery\_services\_vault](#module\_recovery\_services\_vault) | schubergphilis-ep/mcaf-recoveryservicesvault/azure | 0.3.0 |
 
 ## Resources
 

@@ -12,7 +12,8 @@ resource "azurerm_resource_group" "this" {
 }
 
 module "keyvault_with_cmk" {
-  source = "github.com/schubergphilis/terraform-azure-mcaf-key-vault.git?ref=v0.3.2"
+  source  = "schubergphilis-ep/mcaf-key-vault/azure"
+  version = "0.3.2"
 
   key_vault = {
     name                            = var.key_vault.name
@@ -45,7 +46,8 @@ module "keyvault_with_cmk" {
 }
 
 module "recovery_services_vault" {
-  source = "github.com/schubergphilis/terraform-azure-mcaf-recoveryservicesvault.git?ref=v0.3.0"
+  source  = "schubergphilis-ep/mcaf-recoveryservicesvault/azure"
+  version = "0.3.0"
   count  = var.recovery_services_vault != null ? 1 : 0
 
   name                             = var.recovery_services_vault.name
@@ -78,7 +80,8 @@ module "recovery_services_vault" {
 
 
 module "boot_diag_storage_account" {
-  source = "github.com/schubergphilis/terraform-azure-mcaf-storage-account.git?ref=v0.7.0"
+  source  = "schubergphilis-ep/mcaf-storage-account/azure"
+  version = "0.7.0"
   count  = var.boot_diag_storage_account != null ? 1 : 0
 
   name                              = var.boot_diag_storage_account.name
@@ -107,7 +110,8 @@ module "boot_diag_storage_account" {
 }
 
 module "container_registry" {
-  source = "github.com/schubergphilis/terraform-azure-mcaf-container-registry.git?ref=v0.1.3"
+  source  = "schubergphilis-ep/mcaf-container-registry/azure"
+  version = "0.1.3"
   count  = var.container_registry != null ? 1 : 0
 
   acr = {

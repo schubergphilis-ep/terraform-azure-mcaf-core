@@ -46,9 +46,9 @@ module "keyvault_with_cmk" {
 }
 
 module "recovery_services_vault" {
+  count   = var.recovery_services_vault != null ? 1 : 0
   source  = "schubergphilis-ep/mcaf-recoveryservicesvault/azure"
   version = "0.3.0"
-  count  = var.recovery_services_vault != null ? 1 : 0
 
   name                             = var.recovery_services_vault.name
   resource_group_name              = azurerm_resource_group.this.name
@@ -80,9 +80,9 @@ module "recovery_services_vault" {
 
 
 module "boot_diag_storage_account" {
+  count   = var.boot_diag_storage_account != null ? 1 : 0
   source  = "schubergphilis-ep/mcaf-storage-account/azure"
   version = "0.7.0"
-  count  = var.boot_diag_storage_account != null ? 1 : 0
 
   name                              = var.boot_diag_storage_account.name
   location                          = var.location
@@ -110,9 +110,9 @@ module "boot_diag_storage_account" {
 }
 
 module "container_registry" {
+  count   = var.container_registry != null ? 1 : 0
   source  = "schubergphilis-ep/mcaf-container-registry/azure"
   version = "0.1.3"
-  count  = var.container_registry != null ? 1 : 0
 
   acr = {
     name                          = var.container_registry.name

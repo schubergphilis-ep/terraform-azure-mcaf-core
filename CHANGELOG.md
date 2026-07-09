@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.7.2](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/compare/v0.7.1...v0.7.2) (2026-07-09)
+
+
+### 🐛 Fixes
+
+* migrate MCAF module sources ([#3](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/issues/3)) ([c3acb6c](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/commit/c3acb6cbfb1135276dafdb0dc3ec088a8f673630))
+
 ## [0.7.1](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/compare/v0.7.0...v0.7.1) (2026-05-06)
 
 
@@ -79,4 +86,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🚀 Features
 
 * add initial core implementation ([#1](https://github.com/schubergphilis/terraform-azure-mcaf-core/pull/1)) ([a1a7bce](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/commit/a1a7bce52b1cf8ec4cd2f445adfe586a2008d3fe))
-

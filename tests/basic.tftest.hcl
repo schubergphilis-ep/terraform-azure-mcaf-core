@@ -103,6 +103,20 @@ run "recovery_services_vault_created_when_configured" {
   }
 }
 
+run "boot_diag_storage_account_not_created_by_default" {
+  command = plan
+
+  assert {
+    condition     = length(module.boot_diag_storage_account) == 0
+    error_message = "Boot diagnostics storage account module should not be created when boot_diag_storage_account is null."
+  }
+
+  assert {
+    condition     = output.storage_account_id == null
+    error_message = "storage_account_id output should be null when boot diagnostics storage account is not configured."
+  }
+}
+
 run "container_registry_not_created_by_default" {
   command = plan
 

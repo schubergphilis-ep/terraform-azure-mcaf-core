@@ -122,12 +122,29 @@ run "container_registry_created_when_configured" {
 
   variables {
     container_registry = {
-      name = "acrtestcore001"
+      name                          = "acrtestcore001"
+      public_network_access_enabled = true
     }
   }
 
   assert {
     condition     = length(module.container_registry) == 1
     error_message = "Container registry module should be created when container_registry is set."
+  }
+}
+
+run "container_registry_private_endpoint_when_pe_subnet_set" {
+  command = plan
+
+  variables {
+    container_registry = {
+      name      = "acrtestcore002"
+      pe_subnet = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test-core/providers/Microsoft.Network/virtualNetworks/vnet-test-core/subnets/snet-test-core"
+    }
+  }
+
+  assert {
+    condition     = length(module.container_registry) == 1
+    error_message = "Container registry module should be created when container_registry is set, even with public network access disabled and a pe_subnet configured."
   }
 }

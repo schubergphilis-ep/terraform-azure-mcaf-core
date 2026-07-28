@@ -122,6 +122,7 @@ variable "container_registry" {
     quarantine_policy_enabled        = optional(bool, false)
     admin_enabled                    = optional(bool, false)
     public_network_access_enabled    = optional(bool, false)
+    pe_subnet                        = optional(string, null)
     network_rule_bypass_option       = optional(string, "None")
     enable_trust_policy              = optional(bool, false)
     export_policy_enabled            = optional(bool, false)

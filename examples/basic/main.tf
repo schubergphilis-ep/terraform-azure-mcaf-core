@@ -24,7 +24,8 @@ module "azure_core" {
   }
 
   container_registry = {
-    name = "example-acr"
+    name                          = "example-acr"
+    public_network_access_enabled = true
   }
 
 

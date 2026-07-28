@@ -145,6 +145,10 @@ variable "container_registry" {
     tags = optional(map(string), {})
   })
   default = null
+  validation {
+    condition     = var.container_registry == null || (var.container_registry.public_network_access_enabled || var.container_registry.pe_subnet != null)
+    error_message = "container_registry.pe_subnet must be set when container_registry.public_network_access_enabled is false, since a private endpoint is created automatically and requires a subnet."
+  }
 }
 
 variable "tags" {

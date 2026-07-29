@@ -13,36 +13,40 @@ resource "azurerm_resource_group" "this" {
 
 module "keyvault_with_cmk" {
   source  = "schubergphilis-ep/mcaf-key-vault/azure"
-  version = "0.3.2"
+  version = "1.1.1"
 
-  key_vault = {
-    name                            = var.key_vault.name
-    tenant_id                       = data.azurerm_client_config.current.tenant_id
-    resource_group_name             = azurerm_resource_group.this.name
-    location                        = var.location
-    enabled_for_disk_encryption     = var.key_vault.enabled_for_disk_encryption
-    enabled_for_deployment          = var.key_vault.enabled_for_deployment
-    enabled_for_template_deployment = var.key_vault.enabled_for_template_deployment
-    enable_rbac_authorization       = var.key_vault.enable_rbac_authorization
-    purge_protection                = true
-    soft_delete_retention_days      = 30
-    public_network_access_enabled   = var.key_vault.public_network_access_enabled
-    default_action                  = var.key_vault.public_network_access_enabled ? "Allow" : "Deny"
-    sku                             = var.key_vault.sku
-    ip_rules                        = length(var.key_vault.ip_rules) == 0 ? null : var.key_vault.ip_rules
-    subnet_ids                      = length(var.key_vault.subnet_ids) == 0 ? null : var.key_vault.subnet_ids
-    network_bypass                  = var.key_vault.network_bypass
-    cmk_keys_create                 = var.key_vault.cmk_keys_create
-    cmk_rotation_period             = var.key_vault.cmk_rotation_period
-    cmk_expiry_period               = var.key_vault.cmk_expiry_period
-    cmk_notify_period               = var.key_vault.cmk_notify_period
-    cmkrsa_key_name                 = var.key_vault.cmkrsa_key_name
-    cmkec_key_name                  = var.key_vault.cmkec_key_name
-    cmk_expiration_date             = var.key_vault.cmk_expiration_date
-  }
+  name                            = var.key_vault.name
+  tenant_id                       = data.azurerm_client_config.current.tenant_id
+  resource_group_name             = azurerm_resource_group.this.name
+  location                        = var.location
+  enabled_for_disk_encryption     = var.key_vault.enabled_for_disk_encryption
+  enabled_for_deployment          = var.key_vault.enabled_for_deployment
+  enabled_for_template_deployment = var.key_vault.enabled_for_template_deployment
+  enable_rbac_authorization       = var.key_vault.enable_rbac_authorization
+  purge_protection                = true
+  soft_delete_retention_days      = 30
+  public_network_access_enabled   = var.key_vault.public_network_access_enabled
+  default_network_action          = var.key_vault.public_network_access_enabled ? "Allow" : "Deny"
+  sku                             = var.key_vault.sku
+  ip_rules                        = var.key_vault.ip_rules
+  subnet_ids                      = var.key_vault.subnet_ids
+  network_bypass                  = var.key_vault.network_bypass
 
-  key_vault_key = var.key_vault_key
-  tags          = var.tags
+  customer_managed_key = var.key_vault.cmk_keys_create ? {
+    rsa_key_name    = var.key_vault.cmkrsa_key_name
+    rotation_period = var.key_vault.cmk_rotation_period
+    expiry_period   = var.key_vault.cmk_expiry_period
+    notify_period   = var.key_vault.cmk_notify_period
+    expiration_date = var.key_vault.cmk_expiration_date
+  } : null
+
+  keys = var.key_vault_key
+  tags = var.tags
+}
+
+moved {
+  from = module.keyvault_with_cmk.azurerm_role_assignment.this
+  to   = module.keyvault_with_cmk.azurerm_role_assignment.this["deploy_admin"]
 }
 
 module "recovery_services_vault" {

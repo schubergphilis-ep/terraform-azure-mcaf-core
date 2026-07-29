@@ -19,7 +19,7 @@ Terraform module to create the Core component of each workload, currently only i
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_boot_diag_storage_account"></a> [boot\_diag\_storage\_account](#module\_boot\_diag\_storage\_account) | schubergphilis-ep/mcaf-storage-account/azure | 0.7.0 |
+| <a name="module_boot_diag_storage_account"></a> [boot\_diag\_storage\_account](#module\_boot\_diag\_storage\_account) | schubergphilis-ep/mcaf-storage-account/azure | 1.0.0 |
 | <a name="module_container_registry"></a> [container\_registry](#module\_container\_registry) | schubergphilis-ep/mcaf-container-registry/azure | 0.2.2 |
 | <a name="module_keyvault_with_cmk"></a> [keyvault\_with\_cmk](#module\_keyvault\_with\_cmk) | schubergphilis-ep/mcaf-key-vault/azure | 1.1.1 |
 | <a name="module_recovery_services_vault"></a> [recovery\_services\_vault](#module\_recovery\_services\_vault) | schubergphilis-ep/mcaf-recoveryservicesvault/azure | 0.3.0 |

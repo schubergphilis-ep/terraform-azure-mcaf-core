@@ -112,7 +112,7 @@ module "boot_diag_storage_account" {
 module "container_registry" {
   count   = var.container_registry != null ? 1 : 0
   source  = "schubergphilis-ep/mcaf-container-registry/azure"
-  version = "0.1.3"
+  version = "0.2.2"
 
   acr = {
     name                          = var.container_registry.name
@@ -123,6 +123,7 @@ module "container_registry" {
     quarantine_policy_enabled     = var.container_registry.quarantine_policy_enabled
     admin_enabled                 = var.container_registry.admin_enabled
     public_network_access_enabled = var.container_registry.public_network_access_enabled
+    pe_subnet                     = var.container_registry.pe_subnet
     network_rule_bypass_option    = var.container_registry.network_rule_bypass_option
     enable_trust_policy           = var.container_registry.enable_trust_policy
     export_policy_enabled         = var.container_registry.export_policy_enabled

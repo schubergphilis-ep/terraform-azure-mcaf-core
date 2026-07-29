@@ -122,6 +122,7 @@ variable "container_registry" {
     quarantine_policy_enabled        = optional(bool, false)
     admin_enabled                    = optional(bool, false)
     public_network_access_enabled    = optional(bool, false)
+    pe_subnet                        = optional(string, null)
     network_rule_bypass_option       = optional(string, "None")
     enable_trust_policy              = optional(bool, false)
     export_policy_enabled            = optional(bool, false)
@@ -144,6 +145,10 @@ variable "container_registry" {
     tags = optional(map(string), {})
   })
   default = null
+  validation {
+    condition     = var.container_registry == null || (var.container_registry.public_network_access_enabled || var.container_registry.pe_subnet != null)
+    error_message = "container_registry.pe_subnet must be set when container_registry.public_network_access_enabled is false, since a private endpoint is created automatically and requires a subnet."
+  }
 }
 
 variable "tags" {

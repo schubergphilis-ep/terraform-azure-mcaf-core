@@ -86,7 +86,7 @@ module "recovery_services_vault" {
 module "boot_diag_storage_account" {
   count   = var.boot_diag_storage_account != null ? 1 : 0
   source  = "schubergphilis-ep/mcaf-storage-account/azure"
-  version = "0.7.0"
+  version = "1.0.0"
 
   name                              = var.boot_diag_storage_account.name
   location                          = var.location

@@ -117,6 +117,29 @@ run "boot_diag_storage_account_not_created_by_default" {
   }
 }
 
+run "boot_diag_storage_account_created_with_cmk" {
+  command = plan
+
+  variables {
+    boot_diag_storage_account = {
+      name                   = "sttestcore"
+      cmk_encryption_enabled = true
+      user_assigned_identities = [
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test-core/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami-test"
+      ]
+      storage_management_policy = {
+        blob_delete_retention_days      = 90
+        container_delete_retention_days = 90
+      }
+    }
+  }
+
+  assert {
+    condition     = length(module.boot_diag_storage_account) == 1
+    error_message = "Boot diagnostics storage account module should be created when configured with CMK."
+  }
+}
+
 run "container_registry_not_created_by_default" {
   command = plan
 

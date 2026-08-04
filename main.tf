@@ -86,7 +86,7 @@ module "recovery_services_vault" {
 module "boot_diag_storage_account" {
   count   = var.boot_diag_storage_account != null ? 1 : 0
   source  = "schubergphilis-ep/mcaf-storage-account/azure"
-  version = "1.0.0"
+  version = "2.0.0"
 
   name                              = var.boot_diag_storage_account.name
   location                          = var.location
@@ -96,11 +96,17 @@ module "boot_diag_storage_account" {
   account_kind                      = "StorageV2"
   access_tier                       = var.boot_diag_storage_account.access_tier
   infrastructure_encryption_enabled = var.boot_diag_storage_account.infrastructure_encryption_enabled
-  cmk_key_vault_id                  = var.boot_diag_storage_account.cmk_encryption_enabled ? module.keyvault_with_cmk.key_vault_id : null
-  cmk_key_name                      = var.boot_diag_storage_account.cmk_encryption_enabled ? module.keyvault_with_cmk.cmkrsa_key_name : null
   system_assigned_identity_enabled  = var.boot_diag_storage_account.system_assigned_identity_enabled
   user_assigned_identities          = var.boot_diag_storage_account.user_assigned_identities
   immutability_policy               = var.boot_diag_storage_account.immutability_policy
+  storage_management_policy         = var.boot_diag_storage_account.storage_management_policy
+  tags                              = merge(var.boot_diag_storage_account.tags, var.tags)
+
+  cmk_key = var.boot_diag_storage_account.cmk_encryption_enabled ? {
+    key_vault_id = module.keyvault_with_cmk.key_vault_id
+    key_name     = module.keyvault_with_cmk.cmkrsa_key_name
+  } : null
+
   network_configuration = {
     https_traffic_only_enabled      = true
     allow_nested_items_to_be_public = true
@@ -109,8 +115,6 @@ module "boot_diag_storage_account" {
     ip_rules                        = var.boot_diag_storage_account.ip_rules
     bypass                          = ["AzureServices"]
   }
-  storage_management_policy = var.boot_diag_storage_account.storage_management_policy
-  tags                      = merge(var.boot_diag_storage_account.tags, var.tags)
 }
 
 module "container_registry" {

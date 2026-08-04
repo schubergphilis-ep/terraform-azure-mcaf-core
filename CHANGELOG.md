@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.0](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/compare/v0.7.2...v1.0.0) (2026-08-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* update storage account module module to 1.0.0 ([#8](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/issues/8))
+* update keyvault module module to 1.1.1 ([#7](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/issues/7))
+* update container_registry module to 0.2.2 ([#6](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/issues/6))
+
+### 🚀 Features
+
+* update container_registry module to 0.2.2 ([#6](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/issues/6)) ([5b8bbb2](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/commit/5b8bbb2610fc972732ed9b74465f5fbf43489aa3))
+* update keyvault module module to 1.1.1 ([#7](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/issues/7)) ([9cc820e](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/commit/9cc820e2107f1b507ce810cae489b482637fbcc0))
+* update storage account module module to 1.0.0 ([#8](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/issues/8)) ([b566be5](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/commit/b566be5afcd10d461b2683e658adcfea2027a700))
+
+
+### 🐛 Fixes
+
+* update to storage account v2.0.0 and fix bug of not being able to deploy core with boot diag SA ([#10](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/issues/10)) ([742484a](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/commit/742484a83bea1a0d7dc0251a167e1e3ec1e83616))
+
 ## [0.7.2](https://github.com/schubergphilis-ep/terraform-azure-mcaf-core/compare/v0.7.1...v0.7.2) (2026-07-09)
 
 

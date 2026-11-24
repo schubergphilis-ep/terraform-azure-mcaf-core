@@ -199,6 +199,11 @@ run "container_registry_created_when_configured" {
     condition     = length(module.container_registry) == 1
     error_message = "Container registry module should be created when container_registry is set."
   }
+
+  assert {
+    condition     = module.container_registry[0].resource.data_endpoint_enabled == false
+    error_message = "A public container registry should not get a dedicated data endpoint."
+  }
 }
 
 run "container_registry_georeplication_global_endpoint_routing" {
@@ -235,5 +240,10 @@ run "container_registry_private_endpoint_when_pe_subnet_set" {
   assert {
     condition     = length(module.container_registry) == 1
     error_message = "Container registry module should be created when container_registry is set, even with public network access disabled and a pe_subnet configured."
+  }
+
+  assert {
+    condition     = module.container_registry[0].resource.data_endpoint_enabled == true
+    error_message = "A private container registry needs a dedicated data endpoint for pulls over its private endpoint."
   }
 }

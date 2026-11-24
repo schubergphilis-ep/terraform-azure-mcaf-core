@@ -136,6 +136,7 @@ module "container_registry" {
     quarantine_policy_enabled     = var.container_registry.quarantine_policy_enabled
     admin_enabled                 = var.container_registry.admin_enabled
     public_network_access_enabled = var.container_registry.public_network_access_enabled
+    data_endpoint_enabled         = !var.container_registry.public_network_access_enabled
     pe_subnet                     = var.container_registry.pe_subnet
     network_rule_bypass_option    = var.container_registry.network_rule_bypass_option
     export_policy_enabled         = var.container_registry.export_policy_enabled

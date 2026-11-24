@@ -12,6 +12,7 @@ resource "azurerm_resource_group" "this" {
 }
 
 module "keyvault_with_cmk" {
+  #checkov:skip=CKV_AZURE_109:The network ACL default action is Deny, and only becomes Allow when the caller explicitly sets key_vault.public_network_access_enabled = true. Checkov cannot resolve that conditional.
   source  = "schubergphilis-ep/mcaf-key-vault/azure"
   version = "2.0.0"
 

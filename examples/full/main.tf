@@ -4,13 +4,12 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 4"
+      version = ">= 5"
     }
   }
 }
 
 provider "azurerm" {
-  subscription_id = "00000000-0000-0000-0000-000000000000"
   features {}
 }
 
@@ -44,7 +43,7 @@ module "azure_core" {
   }
 
   container_registry = {
-    name = "example-acr"
+    name = "exampleacr"
     # public_network_access_enabled defaults to false, so a private endpoint
     # is created into the subnet below instead of exposing the registry publicly.
     pe_subnet = azurerm_subnet.example.id

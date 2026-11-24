@@ -1,4 +1,15 @@
-mock_provider "azurerm" {}
+mock_provider "azurerm" {
+  # azurerm v5 validates ids as UUIDs, also under the mock provider. The key vault module reads
+  # object_id from its own azurerm_client_config, so override_data on the root data source is not enough.
+  mock_data "azurerm_client_config" {
+    defaults = {
+      tenant_id       = "00000000-0000-0000-0000-000000000000"
+      subscription_id = "00000000-0000-0000-0000-000000000000"
+      object_id       = "00000000-0000-0000-0000-000000000001"
+      client_id       = "00000000-0000-0000-0000-000000000002"
+    }
+  }
+}
 
 override_data {
   target = data.azurerm_client_config.current
@@ -103,6 +114,26 @@ run "recovery_services_vault_created_when_configured" {
   }
 }
 
+run "recovery_services_vault_created_with_cmk" {
+  command = plan
+
+  variables {
+    recovery_services_vault = {
+      name                   = "rsv-test-core"
+      cmk_encryption_enabled = true
+      cmk_identity_id        = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test-core/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami-test"
+      user_assigned_identities = [
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test-core/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami-test"
+      ]
+    }
+  }
+
+  assert {
+    condition     = length(module.recovery_services_vault) == 1
+    error_message = "Recovery services vault module should be created when configured with CMK."
+  }
+}
+
 run "boot_diag_storage_account_not_created_by_default" {
   command = plan
 
@@ -168,6 +199,32 @@ run "container_registry_created_when_configured" {
     condition     = length(module.container_registry) == 1
     error_message = "Container registry module should be created when container_registry is set."
   }
+
+  assert {
+    condition     = module.container_registry[0].resource.data_endpoint_enabled == false
+    error_message = "A public container registry should not get a dedicated data endpoint."
+  }
+}
+
+run "container_registry_georeplication_global_endpoint_routing" {
+  command = plan
+
+  variables {
+    container_registry = {
+      name                          = "acrtestcore003"
+      sku                           = "Premium"
+      public_network_access_enabled = true
+      georeplications = [{
+        location                        = "northeurope"
+        global_endpoint_routing_enabled = false
+      }]
+    }
+  }
+
+  assert {
+    condition     = one(module.container_registry[0].resource.georeplications).global_endpoint_routing_enabled == false
+    error_message = "georeplications[*].global_endpoint_routing_enabled must reach the registry, not fall back to the module default."
+  }
 }
 
 run "container_registry_private_endpoint_when_pe_subnet_set" {
@@ -183,5 +240,10 @@ run "container_registry_private_endpoint_when_pe_subnet_set" {
   assert {
     condition     = length(module.container_registry) == 1
     error_message = "Container registry module should be created when container_registry is set, even with public network access disabled and a pe_subnet configured."
+  }
+
+  assert {
+    condition     = module.container_registry[0].resource.data_endpoint_enabled == true
+    error_message = "A private container registry needs a dedicated data endpoint for pulls over its private endpoint."
   }
 }

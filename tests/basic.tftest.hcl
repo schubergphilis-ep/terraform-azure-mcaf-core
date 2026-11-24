@@ -201,6 +201,27 @@ run "container_registry_created_when_configured" {
   }
 }
 
+run "container_registry_georeplication_global_endpoint_routing" {
+  command = plan
+
+  variables {
+    container_registry = {
+      name                          = "acrtestcore003"
+      sku                           = "Premium"
+      public_network_access_enabled = true
+      georeplications = [{
+        location                        = "northeurope"
+        global_endpoint_routing_enabled = false
+      }]
+    }
+  }
+
+  assert {
+    condition     = one(module.container_registry[0].resource.georeplications).global_endpoint_routing_enabled == false
+    error_message = "georeplications[*].global_endpoint_routing_enabled must reach the registry, not fall back to the module default."
+  }
+}
+
 run "container_registry_private_endpoint_when_pe_subnet_set" {
   command = plan
 

@@ -123,7 +123,6 @@ variable "container_registry" {
     public_network_access_enabled    = optional(bool, false)
     pe_subnet                        = optional(string, null)
     network_rule_bypass_option       = optional(string, "None")
-    enable_trust_policy              = optional(bool, false)
     export_policy_enabled            = optional(bool, false)
     retention_policy_in_days         = optional(number, 7)
     system_assigned_identity_enabled = optional(bool, false)
@@ -131,10 +130,10 @@ variable "container_registry" {
     cmk_encryption_enabled           = optional(bool, false)
     cmk_identity_id                  = optional(string, null)
     georeplications = optional(list(object({
-      location                  = string
-      regional_endpoint_enabled = optional(bool, true)
-      zone_redundancy_enabled   = optional(bool, true)
-      tags                      = optional(map(any), null)
+      location                        = string
+      global_endpoint_routing_enabled = optional(bool, true)
+      zone_redundancy_enabled         = optional(bool, true)
+      tags                            = optional(map(any), null)
     })), [])
     zone_redundancy_enabled = optional(bool, true)
     role_assignments = optional(map(object({

@@ -137,7 +137,6 @@ module "container_registry" {
     public_network_access_enabled = var.container_registry.public_network_access_enabled
     pe_subnet                     = var.container_registry.pe_subnet
     network_rule_bypass_option    = var.container_registry.network_rule_bypass_option
-    enable_trust_policy           = var.container_registry.enable_trust_policy
     export_policy_enabled         = var.container_registry.export_policy_enabled
     retention_policy_in_days      = var.container_registry.retention_policy_in_days
 

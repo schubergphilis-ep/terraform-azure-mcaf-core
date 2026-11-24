@@ -13,7 +13,7 @@ resource "azurerm_resource_group" "this" {
 
 module "keyvault_with_cmk" {
   source  = "schubergphilis-ep/mcaf-key-vault/azure"
-  version = "1.1.1"
+  version = "2.0.0"
 
   name                            = var.key_vault.name
   tenant_id                       = data.azurerm_client_config.current.tenant_id
@@ -52,7 +52,7 @@ moved {
 module "recovery_services_vault" {
   count   = var.recovery_services_vault != null ? 1 : 0
   source  = "schubergphilis-ep/mcaf-recoveryservicesvault/azure"
-  version = "0.3.0"
+  version = "1.0.0"
 
   name                             = var.recovery_services_vault.name
   resource_group_name              = azurerm_resource_group.this.name
@@ -60,16 +60,20 @@ module "recovery_services_vault" {
   sku                              = var.recovery_services_vault.sku
   storage_mode_type                = var.recovery_services_vault.storage_mode_type
   cross_region_restore_enabled     = var.recovery_services_vault.cross_region_restore_enabled
-  soft_delete_enabled              = var.recovery_services_vault.soft_delete_enabled
   system_assigned_identity_enabled = var.recovery_services_vault.system_assigned_identity_enabled
   user_assigned_identities         = var.recovery_services_vault.user_assigned_identities
   cmk_identity_id                  = var.recovery_services_vault.cmk_encryption_enabled ? var.recovery_services_vault.cmk_identity_id : null
-  cmk_key_vault_key_id             = var.recovery_services_vault.cmk_encryption_enabled ? module.keyvault_with_cmk.cmkrsa_versionless_id : null
   immutability                     = var.recovery_services_vault.immutability
   location                         = var.location
   vm_backup_policy                 = var.vm_backup_policy
   file_share_backup_policy         = var.file_share_backup_policy
   tags                             = merge(var.recovery_services_vault.tags, var.tags)
+
+  cmk_key = var.recovery_services_vault.cmk_encryption_enabled ? {
+    resource_versionless_id = module.keyvault_with_cmk.cmkrsa_resource_versionless_id
+    versionless_id          = module.keyvault_with_cmk.cmkrsa_versionless_id
+  } : null
+
 }
 
 # module "backup_vault" {
@@ -86,7 +90,7 @@ module "recovery_services_vault" {
 module "boot_diag_storage_account" {
   count   = var.boot_diag_storage_account != null ? 1 : 0
   source  = "schubergphilis-ep/mcaf-storage-account/azure"
-  version = "2.0.0"
+  version = "3.3.0"
 
   name                              = var.boot_diag_storage_account.name
   location                          = var.location
@@ -103,8 +107,8 @@ module "boot_diag_storage_account" {
   tags                              = merge(var.boot_diag_storage_account.tags, var.tags)
 
   cmk_key = var.boot_diag_storage_account.cmk_encryption_enabled ? {
-    key_vault_id = module.keyvault_with_cmk.key_vault_id
-    key_name     = module.keyvault_with_cmk.cmkrsa_key_name
+    resource_versionless_id = module.keyvault_with_cmk.cmkrsa_resource_versionless_id
+    versionless_id          = module.keyvault_with_cmk.cmkrsa_versionless_id
   } : null
 
   network_configuration = {
@@ -120,7 +124,7 @@ module "boot_diag_storage_account" {
 module "container_registry" {
   count   = var.container_registry != null ? 1 : 0
   source  = "schubergphilis-ep/mcaf-container-registry/azure"
-  version = "0.2.2"
+  version = "1.0.0"
 
   acr = {
     name                          = var.container_registry.name

@@ -5,7 +5,6 @@ variable "recovery_services_vault" {
     sku                              = optional(string, "Standard")
     storage_mode_type                = optional(string, "GeoRedundant")
     cross_region_restore_enabled     = optional(bool, false)
-    soft_delete_enabled              = optional(bool, true)
     system_assigned_identity_enabled = optional(bool, true)
     user_assigned_identities         = optional(set(string), [])
     cmk_identity_id                  = optional(string, null)
@@ -166,7 +165,7 @@ variable "file_share_backup_policy" {
     A map objects for backup and retation options.
 
     - `name` - (Optional) The name of the private endpoint. One will be generated if not set.
-    - `role_assignments` - (Optional) A map of role assignments to create on the 
+    - `role_assignments` - (Optional) A map of role assignments to create on the
 
     - `backup` - (required) backup options.
         - `frequency` - (Required) Sets the backup frequency. Possible values are hourly, Daily and Weekly.
@@ -175,7 +174,7 @@ variable "file_share_backup_policy" {
         - `hour_duration` -  (Optional) Duration of the backup window in hours. Possible values are between 4 and 24 This is used when frequency is hourly. 12
         - `weekdays` -  (Optional) The days of the week to perform backups on. Must be one of Sunday, Monday, Tuesday, Wednesday, Thursday, Friday or Saturday. This is used when frequency is Weekly. ["Tuesday", "Saturday"]
     - `retention_daily` - (Optional)
-      - `count` - 
+      - `count` -
     - `retantion_weekly` -
       - `count` -
       - `weekdays` -
@@ -234,7 +233,7 @@ variable "file_share_backup_policy" {
 #     name                       = string
 #     location                   = string
 #     redundancy                 = string
-#     immutability               = string // accepted values are "Disabled"", "Locked", "Unlocked" 
+#     immutability               = string // accepted values are "Disabled"", "Locked", "Unlocked"
 #     soft_delete_retention_days = number
 #     cmk_key_vault_key_id       = optional(string, null)
 #   })
